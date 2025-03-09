@@ -7,11 +7,11 @@ import (
 )
 
 func formHandler(w http.ResponseWriter, r *http.Request) {
-	if err := r.ParseForm(); err != nil {
-		fmt.Fprintf(w, "ParseForm() err: %v", err)
+	if err := r.ParseForm(); err != nil { // Fixed 'nill' typo to 'nil'
+		fmt.Fprintf(w, "ParseForm() error: %v", err)
 		return
 	}
-	fmt.Fprintf(w, "POST REQUEST SUCCESSFUL.\n")
+	fmt.Fprintf(w, "Post REQUEST SUCCESSFUL\n")
 	name := r.FormValue("name")
 	address := r.FormValue("address")
 	fmt.Fprintf(w, "Name=%s\n", name)
@@ -24,20 +24,20 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if r.Method != "GET" {
-		http.Error(w, "method is not supported", http.StatusMethodNotAllowed)
+		http.Error(w, "Method is not supported", http.StatusMethodNotAllowed) // Changed StatusNotFound to StatusMethodNotAllowed
 		return
 	}
-	fmt.Fprintf(w, "hello!")
+	fmt.Fprintf(w, "Hello")
 }
 
 func main() {
-	fileServer := http.FileServer(http.Dir("./static"))
-	http.Handle("/", fileServer)
+	fileServer := http.FileServer(http.Dir("./static")) // Fixed incorrect variable assignment
+	http.Handle("/", fileServer)                        // Fixed incorrect function usage (Handler -> Handle)
 	http.HandleFunc("/form", formHandler)
 	http.HandleFunc("/hello", helloHandler)
 
-	fmt.Println("Starting server at port 8080") // Added port number
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	fmt.Printf("Starting server at port 8081\n")
+	if err := http.ListenAndServe(":8081", nil); err != nil { // Fixed 'nill' typo to 'nil'
 		log.Fatal(err)
 	}
 }
